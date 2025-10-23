@@ -1,7 +1,8 @@
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import cloudinary from "../lib/cloudinary.js";
+
+// ✅ Removed cloudinary import
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -21,14 +22,17 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // ✅ Add a default profile picture (optional)
+    const defaultProfilePic = "/avatar.png"; // from frontend/public/avatar.png
+
     const newUser = new User({
       fullName,
       email,
       password: hashedPassword,
+      profilePic: defaultProfilePic,
     });
 
     if (newUser) {
-      // generate jwt token here
       generateToken(newUser._id, res);
       await newUser.save();
 
@@ -85,6 +89,7 @@ export const logout = (req, res) => {
   }
 };
 
+// ✅ Updated: remove cloudinary upload logic
 export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
@@ -94,10 +99,10 @@ export const updateProfile = async (req, res) => {
       return res.status(400).json({ message: "Profile pic is required" });
     }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    // Instead of uploading to cloudinary, just save the image URL (assuming local or base64)
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { profilePic: uploadResponse.secure_url },
+      { profilePic },
       { new: true }
     );
 
