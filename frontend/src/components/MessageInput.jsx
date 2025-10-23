@@ -7,7 +7,7 @@ const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const { sendMessage } = useChatStore();
+  const { sendMessage, selectedUser } = useChatStore(); // Get selectedUser
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -44,6 +44,13 @@ const MessageInput = () => {
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.error("Failed to send message:", error);
+      
+      // Check if error is from toxic message detection
+      if (error.response?.data?.error === 'toxic_message') {
+        toast.error("Warning: Your message contains inappropriate content!");
+      } else {
+        toast.error("Failed to send message");
+      }
     }
   };
 
