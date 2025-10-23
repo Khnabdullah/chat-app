@@ -3,7 +3,7 @@ import axios from 'axios';
 // Add your Indian bad words here (in lowercase) - extend as needed!
 const BAD_WORDS = [
   'madarchod', 'bhosadike', 'bhenchod', 'betichod', 'bhadhava', 
-  'chodu', 'chutiya', 'gaand', 'gaandu', 'gadha', 'bakland', 
+  'chodu', 'chutiya','chutiye', 'gaand', 'gaandu', 'gadha', 'bakland', 
   'lauda', 'lund', 'hijra', 'kuttiya', 'paad', 'randi', 'saala kutta', 
   'saali kutti', 'tatti', 'kamina', 'chut ke pasine mein talay huye bhajiye', 
   'chut ke dhakkan', 'chut ke gulam', 'chutiya ka bheja ghas khane gaya hai', 
